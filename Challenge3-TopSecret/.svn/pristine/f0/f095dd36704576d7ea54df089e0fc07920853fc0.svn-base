@@ -1,0 +1,69 @@
+//UIUC CS125 FALL 2014 MP. File: CaesarCipher.java, CS125 Project: Challenge3-TopSecret, Version: 2015-09-20T21:55:13-0500.813115451
+/**
+ * A program to search for to encrypt and decrypt lines of text. See
+ * CaesarCipher.txt
+ * Hints: line.charAt( int ) is useful.
+ * You'll need loops, and conditions and variables
+ * You'll need to read the Test cases to understand how your program should work.
+ * Good Programming Hints: "DRY: Don't Repeat Yourself"
+ * Try to make your program as short as possible.
+ * TODO: add your netid to the line below
+ * @author jmgreen5
+ */
+public class CaesarCipher {
+
+	public static void main(String[] strings) {
+		//TODO: Delete the following line and write your implementation here- 
+		
+		
+		TextIO.putln("Please enter the shift value (between -25..-1 and 1..25)");
+		int offset = TextIO.getlnInt();
+		
+		while (offset < -25 || offset > 25 || offset == 0) {
+			if (offset == 999 || offset == -999)
+				TextIO.putln("Using position shift");
+			else
+				TextIO.putln(offset + " is not a valid shift value.\nPlease enter the shift value (between -25..-1 and 1..25)");
+				offset = TextIO.getlnInt();
+		}
+		TextIO.putln("Using shift value of " + offset);
+		boolean finished = false;
+		String sourceText = "";
+		
+		do {
+			TextIO.putln("Please enter the source text (empty line to quit)");
+			sourceText = TextIO.getln();
+			if (sourceText.isEmpty() == true) {
+				TextIO.putln("Bye.");
+				break;
+			}
+			char shift[] = new char[sourceText.length()];
+			shift = sourceText.toCharArray();
+			finished = false;
+			while (!finished) {
+				if (sourceText.equals(""))
+					break;
+				TextIO.putln("Source   :" + sourceText);
+				sourceText = sourceText.toUpperCase();
+				
+				for (int i = 0; i < shift.length; i++) {
+					shift[i] = Character.toUpperCase(shift[i]);
+					if (shift[i] <= 'Z' && shift[i] >= 'A') {
+						if (shift[i] + offset > (int)'Z') {
+							shift[i] = (char) ((int) ((shift[i] - 65 + offset) % 26) + 65);
+						} else if (shift[i] + offset < (int) 'A') {
+							shift[i] = (char) (91 - ((int) ((shift[i] - 65 + offset) * -1) % 26));
+						} else {
+							shift[i] = (char) ((int) shift[i] + offset);
+						}
+					}
+				}
+				String out = new String(shift);
+				TextIO.putln("Processed:" + out);
+				finished = true;	
+			}			
+		} while (finished);
+			}
+}
+			
+			
